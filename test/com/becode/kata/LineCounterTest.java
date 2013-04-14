@@ -25,6 +25,13 @@ public class LineCounterTest {
 		final LineCounter lineCounter = new LineCounter(" code line\n");
 		final int countExpected = 1;
 		assertEquals("Una linea de código devuelve 1", countExpected, lineCounter.countCodeLines());
+	}
+	
+	@Test
+	public void triangulatingTwoCodeLineReturnTwo() {
+		final LineCounter lineCounter = new LineCounter(" code line\n second code line\n");
+		final int countExpected = 2;
+		assertEquals("Dos lineas de código devuelve 2", countExpected, lineCounter.countCodeLines());
 	}	
 
 }
