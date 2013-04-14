@@ -14,3 +14,7 @@ Evolución
       * Creación de su constructor. Se decide que el código fuente se suministra mendiante un string delimitando las diferentes líneas con *\n*
       * Creación del método de conteo: cuenta las lineas en función de los criterios de la kata.
 *   Linea con SOLO caracteres blancos se descarta de la cuenta
+*   Una linea de código devuelve 1. Pero tenemos *rojo* pues no tenemos implementación para el caso
+      * Para buscar el verde:
+
+

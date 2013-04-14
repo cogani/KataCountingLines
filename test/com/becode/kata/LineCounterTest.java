@@ -22,7 +22,7 @@ public class LineCounterTest {
 	
 	@Test
 	public void OneCodeLineReturnOne() {
-		final LineCounter lineCounter = new LineCounter("   		  ");
+		final LineCounter lineCounter = new LineCounter(" code line\n");
 		final int countExpected = 1;
 		assertEquals("Una linea de código devuelve 1", countExpected, lineCounter.countCodeLines());
 	}	

@@ -1,5 +1,8 @@
 package com.becode.kata;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 public class LineCounter {
 	String sourceCode;
 
@@ -8,7 +11,15 @@ public class LineCounter {
 	}
 
 	public int countCodeLines() {
-		return 0;
+		final String[] splitted = sourceCode.split("\\n");
+		ArrayList<String> sourceLines = new ArrayList<String>(
+				Arrays.asList(splitted));
+		int result = 0;
+		for (String line : sourceLines) {
+			if (!"".equals(line.trim()))
+				result++;
+		}
+		return result;
 	}
 
 }
