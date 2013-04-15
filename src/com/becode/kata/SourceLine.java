@@ -21,6 +21,16 @@ public class SourceLine {
 
 		return validCodeLine;
 	}
+	
+	private boolean validateSourceLineAsCodeLine() {
+		boolean codeLine = false;
+
+		if (!isBlankLine() && !isWholeLineACommentLine()
+				&& !isWholeLineABlockComment())
+			codeLine = true;
+
+		return codeLine;
+	}
 
 	private boolean isWholeLineABlockComment() {
 
@@ -77,13 +87,5 @@ public class SourceLine {
 		return isAtTheEnd;
 	}
 
-	private boolean validateSourceLineAsCodeLine() {
-		boolean codeLine = false;
 
-		if (!isBlankLine() && !isWholeLineACommentLine()
-				&& !isWholeLineABlockComment())
-			codeLine = true;
-
-		return codeLine;
-	}
 }
