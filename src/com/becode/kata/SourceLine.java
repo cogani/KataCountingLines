@@ -10,7 +10,7 @@ public class SourceLine {
 
 	public boolean isCodeLine(boolean legacyCommentMode) {
 		if (legacyCommentMode) {
-			findClosingBlockComment();
+			processClosingBlockComment();
 			return false;
 		}
 
@@ -23,14 +23,14 @@ public class SourceLine {
 
 	private boolean isBlockComment() {
 		if (codeLine.startsWith("/*")) {
-			findClosingBlockComment();
+			processClosingBlockComment();
 			return true;
 		}
 		return false;
 	}
 
-	private void findClosingBlockComment() {
-		if (codeLine.contentEquals("*/"))
+	private void processClosingBlockComment() {
+		if (codeLine.endsWith("*/"))
 			activatedCommentMode = false;
 		else
 			activatedCommentMode = true;
