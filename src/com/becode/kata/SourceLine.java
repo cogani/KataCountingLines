@@ -5,7 +5,8 @@ public class SourceLine {
 	private final String OPENING_BLOCK_COMMENT_MARK = "/*";
 	private final String CLOSING_BLOCK_COMMENT_MARK = "*/";
 	private final String LINE_COMMENT_MARK = "//";
-	private boolean activatedCommentMode = false;
+	private final int NOT_FOUND = -1;
+	private boolean activatedCommentMode;
 
 	public SourceLine(String line) {
 		this.codeLine = line.trim();
@@ -15,16 +16,16 @@ public class SourceLine {
 		boolean isValidCodeLine = false;
 		activatedCommentMode = legacyCommentMode;
 
-		if (!isBlankLine() && !isComentLine() && !wholeLineIsBlockComment()
+		if (!isBlankLine() && !wholeLineIsAComment() && !isWholeABlockComment()
 				&& !activatedCommentMode)
 			isValidCodeLine = true;
 
-		processClosingBlockComment();
+		reCalculateCommentModeState();
 
 		return isValidCodeLine;
 	}
 
-	private boolean wholeLineIsBlockComment() {
+	private boolean isWholeABlockComment() {
 
 		boolean fullLineIsaBlockComment = false;
 
@@ -34,16 +35,17 @@ public class SourceLine {
 				.lastIndexOf(CLOSING_BLOCK_COMMENT_MARK);
 
 		if ((posBeginingBlockCommentMark == 0 || activatedCommentMode)
-				&& (posEndingBlockCommentMark == -1 || posEndingBlockCommentMark == codeLine
-						.length() - 2)) {
+				&& (posEndingBlockCommentMark == NOT_FOUND || isMarkAtTheEndOfLine(CLOSING_BLOCK_COMMENT_MARK))) {
 			fullLineIsaBlockComment = true;
-			activatedCommentMode = true;
 		}
 
 		return fullLineIsaBlockComment;
 	}
 
-	private void processClosingBlockComment() {
+	private void reCalculateCommentModeState() {
+		if (codeLine.contains(OPENING_BLOCK_COMMENT_MARK))
+			activatedCommentMode = true;
+		
 		if (codeLine.contains(CLOSING_BLOCK_COMMENT_MARK))
 			activatedCommentMode = false;
 	}
@@ -55,7 +57,7 @@ public class SourceLine {
 			return false;
 	}
 
-	private boolean isComentLine() {
+	private boolean wholeLineIsAComment() {
 		if (codeLine.startsWith(LINE_COMMENT_MARK))
 			return true;
 		else
@@ -66,4 +68,11 @@ public class SourceLine {
 		return activatedCommentMode;
 	}
 
+	private boolean isMarkAtTheEndOfLine(String mark) {
+		boolean isAtTheEnd = false;
+		if (codeLine.lastIndexOf(CLOSING_BLOCK_COMMENT_MARK) == codeLine
+				.length() - mark.length())
+			isAtTheEnd = true;
+		return isAtTheEnd;
+	}
 }

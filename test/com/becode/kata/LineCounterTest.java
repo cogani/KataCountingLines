@@ -81,7 +81,6 @@ public class LineCounterTest {
 	public void lineWithBlockComentPlusCode() {
 		final int countExpected = 1;
 		assertEquals("Comentario de bloque mas codigo en la misma linea", countExpected, LineCounter.countCodeLines("/* Esto es un comentario de bloque*/Esto es codigo"));
-	}	
-	
+	}
 
 }
