@@ -13,19 +13,16 @@ public class SourceLine {
 	}
 
 	public boolean isCodeLine(boolean legacyCommentMode) {
-		boolean isValidCodeLine = false;
+		boolean validCodeLine = false;
 		commentMode = legacyCommentMode;
-		
-		if (!isBlankLine() && !wholeLineIsAComment() && !isWholeABlockComment())
-			isValidCodeLine = true;
-		
+
+		validCodeLine = validateSourceLineAsCodeLine();
 		reCalculateCommentModeState();
 
-
-		return isValidCodeLine;
+		return validCodeLine;
 	}
 
-	private boolean isWholeABlockComment() {
+	private boolean isWholeLineABlockComment() {
 
 		boolean fullLineIsaBlockComment = false;
 
@@ -42,30 +39,34 @@ public class SourceLine {
 		return fullLineIsaBlockComment;
 	}
 
-	private void reCalculateCommentModeState() {
-		if (codeLine.contains(OPENING_BLOCK_COMMENT_MARK))
-			commentMode = true;
-		
-		if (codeLine.contains(CLOSING_BLOCK_COMMENT_MARK))
-			commentMode = false;
-	}
-
 	private boolean isBlankLine() {
+		boolean wholeLineIsACommentLine = false;
+
 		if ("".equals(codeLine))
-			return true;
-		else
-			return false;
+			wholeLineIsACommentLine = true;
+
+		return wholeLineIsACommentLine;
 	}
 
-	private boolean wholeLineIsAComment() {
+	private boolean isWholeLineACommentLine() {
+		boolean wholeLineIsACommentLine = false;
+
 		if (codeLine.startsWith(LINE_COMMENT_MARK))
-			return true;
-		else
-			return false;
+			wholeLineIsACommentLine = true;
+
+		return wholeLineIsACommentLine;
 	}
 
 	public boolean isActivatedCommentMode() {
 		return commentMode;
+	}
+
+	private void reCalculateCommentModeState() {
+		if (codeLine.contains(OPENING_BLOCK_COMMENT_MARK))
+			commentMode = true;
+
+		if (codeLine.contains(CLOSING_BLOCK_COMMENT_MARK))
+			commentMode = false;
 	}
 
 	private boolean isMarkAtTheEndOfLine(String mark) {
@@ -74,5 +75,15 @@ public class SourceLine {
 				.length() - mark.length())
 			isAtTheEnd = true;
 		return isAtTheEnd;
+	}
+
+	private boolean validateSourceLineAsCodeLine() {
+		boolean codeLine = false;
+
+		if (!isBlankLine() && !isWholeLineACommentLine()
+				&& !isWholeLineABlockComment())
+			codeLine = true;
+
+		return codeLine;
 	}
 }

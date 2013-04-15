@@ -13,7 +13,7 @@ public class LineCounterTest {
 	}
 	
 	@Test
-	public void OnlyBlanksLineReturnZero() {
+	public void onlyBlanksLineReturnZero() {
 		final int countExpected = 0;
 		assertEquals("Linea con SOLO caracteres blancos se descarta de la cuenta", countExpected, LineCounter.countCodeLines("   		  "));
 	}	
@@ -84,22 +84,26 @@ public class LineCounterTest {
 	}
 	
 	@Test
-	public void TwolineWithBlockComentPlusCodeAtTheSameLine() {
+	public void twolineWithBlockComentPlusCodeAtTheSameLine() {
 		final int countExpected = 1;
 		assertEquals("Comentario de bloque dos linea, terminando la segunda con codigo", countExpected, LineCounter.countCodeLines("/* Esto es un comentario de bloque\n continua el comentario bloque*/Esto es codigo"));
 	}
 	
 	@Test
-	public void CodeLinePlusPlusBeginBlockCommentAtTheSameLinePlusEndBlockCommentAtTheSecondLine() {
+	public void codeLinePlusPlusBeginBlockCommentAtTheSameLinePlusEndBlockCommentAtTheSecondLine() {
 		final int countExpected = 1;
 		assertEquals("Primera linea con codigo y comienzo comentario bloque, con finalizacion del bloque en la segunda", countExpected, LineCounter.countCodeLines("Esto es codigo/* Esto es un comentario de bloque\n continua el comentario bloque*/"));
 	}
 	
 	@Test
-	public void CodeLinePlusPlusBeginBlockCommentAtTheSameLinePlusEndBlockCommentAtTheSecondLinePlusCodeLineAtTheSecondOne() {
+	public void codeLinePlusPlusBeginBlockCommentAtTheSameLinePlusEndBlockCommentAtTheSecondLinePlusCodeLineAtTheSecondOne() {
 		final int countExpected = 2;
 		assertEquals("Primera linea con codigo y comienzo comentario bloque, con finalizacion del bloque en la segunda seguido en la misma por más código", countExpected, LineCounter.countCodeLines("Esto es codigo/* Esto es un comentario de bloque\n continua el comentario bloque*/Mas codigo"));
 	}
-		
-
+	
+	@Test
+	public void finalCase() {
+		final int countExpected = 4;
+		assertEquals("Caso con todos los elementos juntos", countExpected, LineCounter.countCodeLines("Linea 1//Comentario linea\n//Comentario de linea como totalidad\n/*Comentario de bloque como totalidad de linea*/\nLinea 2/*Comentario bloque\ncontinua comentario bloque*/Linea 3\n/*Inicio comentario bloque\nFin comentario bloque sin codigo posterior en la misma linea*/\nLinea 4"));
+	}
 }
