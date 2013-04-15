@@ -82,5 +82,11 @@ public class LineCounterTest {
 		final int countExpected = 1;
 		assertEquals("Comentario de bloque mas codigo en la misma linea", countExpected, LineCounter.countCodeLines("/* Esto es un comentario de bloque*/Esto es codigo"));
 	}
+	
+	@Test
+	public void TwolineWithBlockComentPlusCodeAtTheSameLine() {
+		final int countExpected = 1;
+		assertEquals("Comentario de bloque dos linea, terminando la segunda con codigo", countExpected, LineCounter.countCodeLines("/* Esto es un comentario de bloque\n continua el comentario bloque*/Esto es codigo"));
+	}
 
 }

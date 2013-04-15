@@ -6,7 +6,7 @@ public class SourceLine {
 	private final String CLOSING_BLOCK_COMMENT_MARK = "*/";
 	private final String LINE_COMMENT_MARK = "//";
 	private final int NOT_FOUND = -1;
-	private boolean activatedCommentMode;
+	private boolean commentMode;
 
 	public SourceLine(String line) {
 		this.codeLine = line.trim();
@@ -14,13 +14,13 @@ public class SourceLine {
 
 	public boolean isCodeLine(boolean legacyCommentMode) {
 		boolean isValidCodeLine = false;
-		activatedCommentMode = legacyCommentMode;
-
-		if (!isBlankLine() && !wholeLineIsAComment() && !isWholeABlockComment()
-				&& !activatedCommentMode)
+		commentMode = legacyCommentMode;
+		
+		if (!isBlankLine() && !wholeLineIsAComment() && !isWholeABlockComment())
 			isValidCodeLine = true;
-
+		
 		reCalculateCommentModeState();
+
 
 		return isValidCodeLine;
 	}
@@ -34,7 +34,7 @@ public class SourceLine {
 		int posEndingBlockCommentMark = codeLine
 				.lastIndexOf(CLOSING_BLOCK_COMMENT_MARK);
 
-		if ((posBeginingBlockCommentMark == 0 || activatedCommentMode)
+		if ((posBeginingBlockCommentMark == 0 || commentMode)
 				&& (posEndingBlockCommentMark == NOT_FOUND || isMarkAtTheEndOfLine(CLOSING_BLOCK_COMMENT_MARK))) {
 			fullLineIsaBlockComment = true;
 		}
@@ -44,10 +44,10 @@ public class SourceLine {
 
 	private void reCalculateCommentModeState() {
 		if (codeLine.contains(OPENING_BLOCK_COMMENT_MARK))
-			activatedCommentMode = true;
+			commentMode = true;
 		
 		if (codeLine.contains(CLOSING_BLOCK_COMMENT_MARK))
-			activatedCommentMode = false;
+			commentMode = false;
 	}
 
 	private boolean isBlankLine() {
@@ -65,7 +65,7 @@ public class SourceLine {
 	}
 
 	public boolean isActivatedCommentMode() {
-		return activatedCommentMode;
+		return commentMode;
 	}
 
 	private boolean isMarkAtTheEndOfLine(String mark) {
