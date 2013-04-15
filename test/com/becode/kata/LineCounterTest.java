@@ -107,4 +107,10 @@ public class LineCounterTest {
 		assertEquals("Caso con todos los elementos juntos", countExpected, LineCounter.countCodeLines("Linea 1//Comentario linea\n//Comentario de linea como totalidad\n/*Comentario de bloque como totalidad de linea*/\nLinea 2/*Comentario bloque\ncontinua comentario bloque*/Linea 3\n/*Inicio comentario bloque\nFin comentario bloque sin codigo posterior en la misma linea*/\nLinea 4"));
 	}
 	
+	@Test
+	public void caseEstoEsUnComentarioDeBloque() {
+		final int countExpected = 0;
+		assertEquals("Caso con todos los elementos juntos", countExpected, LineCounter.countCodeLines("/*\nEsto es comentario de bloque\n*/"));
+	}
+	
 }
