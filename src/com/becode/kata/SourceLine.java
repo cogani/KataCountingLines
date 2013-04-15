@@ -2,6 +2,9 @@ package com.becode.kata;
 
 public class SourceLine {
 	private String codeLine;
+	private final String OPENING_BLOCK_COMMENT_MARK ="/*";
+	private final String CLOSING_BLOCK_COMMENT_MARK ="*/";
+	private final String LINE_COMMENT_MARK ="//";
 	private boolean activatedCommentMode = false;
 
 	public SourceLine(String line) {
@@ -22,7 +25,7 @@ public class SourceLine {
 	}
 
 	private boolean isBlockComment() {
-		if (codeLine.startsWith("/*")) {
+		if (codeLine.startsWith(OPENING_BLOCK_COMMENT_MARK)) {
 			processClosingBlockComment();
 			return true;
 		}
@@ -30,7 +33,7 @@ public class SourceLine {
 	}
 
 	private void processClosingBlockComment() {
-		if (codeLine.endsWith("*/"))
+		if (codeLine.endsWith(CLOSING_BLOCK_COMMENT_MARK))
 			activatedCommentMode = false;
 		else
 			activatedCommentMode = true;
@@ -42,7 +45,7 @@ public class SourceLine {
 	}
 	
 	private boolean isComentLine(){
-		if(codeLine.startsWith("//")) return true;
+		if(codeLine.startsWith(LINE_COMMENT_MARK)) return true;
 		else return false;
 	}
 
