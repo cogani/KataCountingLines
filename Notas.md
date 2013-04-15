@@ -15,6 +15,12 @@ Evolución
       * Creación del método de conteo: cuenta las lineas en función de los criterios de la kata.
 *   Linea con SOLO caracteres blancos se descarta de la cuenta
 *   Una linea de código devuelve 1. Pero tenemos *rojo* pues no tenemos implementación para el caso
-      * Para buscar el verde:
+      * Para buscar el verde: en el SUT
+         * tenemos que contar lineas basandose en los delimitadores *\\n*
+         * y tenemos que descartar si la linea es vacia
+*   Triangulación conteo lineas: Dos lineas de código devuelve 2 -> verde
+*   Pero el codigo huele mal. Necesitamos una refactorización:
+         * 
+
 
 
