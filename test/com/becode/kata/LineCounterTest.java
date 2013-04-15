@@ -42,9 +42,15 @@ public class LineCounterTest {
 		assertEquals("Linea comentario + linea codigo->1", countExpected, LineCounter.countCodeLines("//Linea SOLO comentario, no cuenta como codigo\nLinea codigo"));
 	}
 	@Test
-	public void triangulatinglineIsNotOnlyComentLinePlusCodeLineReturn1() {
+	public void triangulatinglineIsNotOnlyComentLinePlusCodeLineReturn2() {
 		final int countExpected = 2;
 		assertEquals("Linea con codigo y comentario + linea codigo->2", countExpected, LineCounter.countCodeLines("Esto es codigo //Linea SOLO comentario, no cuenta como codigo\nLinea codigo"));
+	}
+	
+	@Test
+	public void blockComentLine() {
+		final int countExpected = 0;
+		assertEquals("Linea con comentario de bloque devuelve 0", countExpected, LineCounter.countCodeLines("/* Esto es un comentario de bloque o multilinea"));
 	}	
 
 }
