@@ -57,6 +57,12 @@ public class LineCounterTest {
 	public void lineIsNotOnlyblockComentLine() {
 		final int countExpected = 1;
 		assertEquals("Linea con codigo y comentario de bloque devuelve 1", countExpected, LineCounter.countCodeLines("Esto es codigo/* Esto es un comentario de bloque o multilinea"));
+	}
+	
+	@Test
+	public void lineIsOnlyblockComentLineAtMultiplesLines() {
+		final int countExpected = 0;
+		assertEquals("Comentario de bloque en dos lineas devuelve 0", countExpected, LineCounter.countCodeLines("/* Esto es un comentario de bloque o multilinea\nsigue el comentario de bloque anterior*/"));
 	}	
 
 }

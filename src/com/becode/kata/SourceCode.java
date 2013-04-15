@@ -20,10 +20,12 @@ public class SourceCode {
 	
 	public int countNumberCodeLines(){
 		int result = 0;
+		boolean commentMode = false;
 		for (String line : sourceLines) {
 			SourceLine sourceLine = new SourceLine(line);
-			if (sourceLine.isCodeLine())
+			if (sourceLine.isCodeLine(commentMode))
 				result++;
+			commentMode = sourceLine.isActivatedCommentMode();
 		}
 		return result;
 	}
