@@ -69,6 +69,19 @@ public class LineCounterTest {
 	public void triangulatingTwoLinesBlockAsCommetBlockPlusCodeLineReturn1() {
 		final int countExpected = 1;
 		assertEquals("Comentario de bloque en dos lineas devuelve mas linea codigo devuelve 1", countExpected, LineCounter.countCodeLines("/* Esto es un comentario de bloque o multilinea\nsigue el comentario de bloque anterior*/\ncode line"));
+	}
+	
+	@Test
+	public void triangulatingTwoLinesBlockAsCommetBlockPlusTwoCodeLineReturn2() {
+		final int countExpected = 2;
+		assertEquals("Comentario de bloque en dos lineas devuelve mas 2 lineas codigo devuelve 2", countExpected, LineCounter.countCodeLines("/* Esto es un comentario de bloque o multilinea\nsigue el comentario de bloque anterior*/\ncode line\notra linea"));
+	}		
+	
+	@Test
+	public void lineWithBlockComentPlusCode() {
+		final int countExpected = 1;
+		assertEquals("Comentario de bloque mas codigo en la misma linea", countExpected, LineCounter.countCodeLines("/* Esto es un comentario de bloque*/Esto es codigo"));
 	}	
+	
 
 }

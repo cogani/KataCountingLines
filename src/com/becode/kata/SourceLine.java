@@ -2,9 +2,9 @@ package com.becode.kata;
 
 public class SourceLine {
 	private String codeLine;
-	private final String OPENING_BLOCK_COMMENT_MARK ="/*";
-	private final String CLOSING_BLOCK_COMMENT_MARK ="*/";
-	private final String LINE_COMMENT_MARK ="//";
+	private final String OPENING_BLOCK_COMMENT_MARK = "/*";
+	private final String CLOSING_BLOCK_COMMENT_MARK = "*/";
+	private final String LINE_COMMENT_MARK = "//";
 	private boolean activatedCommentMode = false;
 
 	public SourceLine(String line) {
@@ -12,41 +12,54 @@ public class SourceLine {
 	}
 
 	public boolean isCodeLine(boolean legacyCommentMode) {
-		if (legacyCommentMode) {
-			processClosingBlockComment();
-			return false;
-		}
+		boolean isValidCodeLine = false;
+		activatedCommentMode = legacyCommentMode;
 
-		if (!isBlankLine() && !isComentLine()
-				&& !isBlockComment())
-			return true;
-		else
-			return false;
+		if (!isBlankLine() && !isComentLine() && !wholeLineIsBlockComment()
+				&& !activatedCommentMode)
+			isValidCodeLine = true;
+
+		processClosingBlockComment();
+
+		return isValidCodeLine;
 	}
 
-	private boolean isBlockComment() {
-		if (codeLine.startsWith(OPENING_BLOCK_COMMENT_MARK)) {
-			processClosingBlockComment();
-			return true;
+	private boolean wholeLineIsBlockComment() {
+
+		boolean fullLineIsaBlockComment = false;
+
+		int posBeginingBlockCommentMark = codeLine
+				.indexOf(OPENING_BLOCK_COMMENT_MARK);
+		int posEndingBlockCommentMark = codeLine
+				.lastIndexOf(CLOSING_BLOCK_COMMENT_MARK);
+
+		if ((posBeginingBlockCommentMark == 0 || activatedCommentMode)
+				&& (posEndingBlockCommentMark == -1 || posEndingBlockCommentMark == codeLine
+						.length() - 2)) {
+			fullLineIsaBlockComment = true;
+			activatedCommentMode = true;
 		}
-		return false;
+
+		return fullLineIsaBlockComment;
 	}
 
 	private void processClosingBlockComment() {
-		if (codeLine.endsWith(CLOSING_BLOCK_COMMENT_MARK))
+		if (codeLine.contains(CLOSING_BLOCK_COMMENT_MARK))
 			activatedCommentMode = false;
+	}
+
+	private boolean isBlankLine() {
+		if ("".equals(codeLine))
+			return true;
 		else
-			activatedCommentMode = true;
+			return false;
 	}
-	
-	private boolean isBlankLine(){
-		if("".equals(codeLine)) return true;
-		else return false;
-	}
-	
-	private boolean isComentLine(){
-		if(codeLine.startsWith(LINE_COMMENT_MARK)) return true;
-		else return false;
+
+	private boolean isComentLine() {
+		if (codeLine.startsWith(LINE_COMMENT_MARK))
+			return true;
+		else
+			return false;
 	}
 
 	public boolean isActivatedCommentMode() {
