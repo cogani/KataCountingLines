@@ -28,6 +28,12 @@ public class LineCounterTest {
 	public void triangulatingTwoCodeLineReturnTwo() {
 		final int countExpected = 2;
 		assertEquals("Dos lineas de código devuelve 2", countExpected, LineCounter.countCodeLines(" code line\n second code line\n"));
+	}
+	
+	@Test
+	public void lineIsOnlyComentLine() {
+		final int countExpected = 0;
+		assertEquals("Una linea de SOLO comentario no suma", countExpected, LineCounter.countCodeLines("//Linea SOLO comentario, no cuenta como codigo"));
 	}	
 
 }
