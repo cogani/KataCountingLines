@@ -2,17 +2,9 @@ package com.becode.kata;
 
 
 public class LineCounter {
-	String sourceLine;
 
-	public LineCounter(String stringCode) {
-		sourceLine = stringCode;
-	}
-
-	public int countCodeLines() {
-	SourceCode sourceCode = new SourceCode(sourceLine);
+	public static int countCodeLines(String stringCode) {
+	SourceCode sourceCode = new SourceCode(stringCode);
 	return sourceCode.countNumberCodeLines();
 	}
-	
-	
-
 }

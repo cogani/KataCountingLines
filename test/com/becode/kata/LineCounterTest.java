@@ -8,30 +8,26 @@ public class LineCounterTest {
 
 	@Test
 	public void testingEmptyLine() {
-		final LineCounter lineCounter = new LineCounter("");
 		final int countExpected = 0;
-		assertEquals("Verficando linea vacia", countExpected, lineCounter.countCodeLines());
+		assertEquals("Verficando linea vacia", countExpected, LineCounter.countCodeLines(""));
 	}
 	
 	@Test
 	public void OnlyBlanksLineReturnZero() {
-		final LineCounter lineCounter = new LineCounter("   		  ");
 		final int countExpected = 0;
-		assertEquals("Linea con SOLO caracteres blancos se descarta de la cuenta", countExpected, lineCounter.countCodeLines());
+		assertEquals("Linea con SOLO caracteres blancos se descarta de la cuenta", countExpected, LineCounter.countCodeLines("   		  "));
 	}	
 	
 	@Test
 	public void OneCodeLineReturnOne() {
-		final LineCounter lineCounter = new LineCounter(" code line\n");
 		final int countExpected = 1;
-		assertEquals("Una linea de código devuelve 1", countExpected, lineCounter.countCodeLines());
+		assertEquals("Una linea de código devuelve 1", countExpected, LineCounter.countCodeLines(" code line\n"));
 	}
 	
 	@Test
 	public void triangulatingTwoCodeLineReturnTwo() {
-		final LineCounter lineCounter = new LineCounter(" code line\n second code line\n");
 		final int countExpected = 2;
-		assertEquals("Dos lineas de código devuelve 2", countExpected, lineCounter.countCodeLines());
+		assertEquals("Dos lineas de código devuelve 2", countExpected, LineCounter.countCodeLines(" code line\n second code line\n"));
 	}	
 
 }
