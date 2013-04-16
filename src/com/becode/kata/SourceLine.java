@@ -6,33 +6,33 @@ public class SourceLine {
 	private final String CLOSING_BLOCK_COMMENT_MARK = "*/";
 	private final String LINE_COMMENT_MARK = "//";
 	private final int NOT_FOUND = -1;
-	private boolean commentMode;
+
+	// State base for State Pattern
+	private ParserState parserState;
 
 	public SourceLine(String line) {
 		this.codeLine = line.trim();
 	}
 
-	public boolean isCodeLine(boolean legacyCommentMode) {
+	public boolean isCodeLine() {
 		boolean validCodeLine = false;
-		commentMode = legacyCommentMode;
 
 		validCodeLine = validateSourceLineAsCodeLine();
 		reCalculateCommentModeState();
 
 		return validCodeLine;
 	}
-	
+
 	private boolean validateSourceLineAsCodeLine() {
 		boolean codeLine = false;
 
-		if (!isBlankLine() && !isWholeLineACommentLine()
-				&& !isWholeLineABlockComment())
+		if (parserState.validateSourceLineAsCodeLine(this))
 			codeLine = true;
 
 		return codeLine;
 	}
 
-	private boolean isWholeLineABlockComment() {
+	public boolean isWholeLineABlockComment(boolean commentMode) {
 
 		boolean fullLineIsaBlockComment = false;
 
@@ -49,7 +49,7 @@ public class SourceLine {
 		return fullLineIsaBlockComment;
 	}
 
-	private boolean isBlankLine() {
+	public boolean isBlankLine() {
 		boolean wholeLineIsACommentLine = false;
 
 		if ("".equals(codeLine))
@@ -58,7 +58,7 @@ public class SourceLine {
 		return wholeLineIsACommentLine;
 	}
 
-	private boolean isWholeLineACommentLine() {
+	public boolean isWholeLineACommentLine() {
 		boolean wholeLineIsACommentLine = false;
 
 		if (codeLine.startsWith(LINE_COMMENT_MARK))
@@ -67,16 +67,15 @@ public class SourceLine {
 		return wholeLineIsACommentLine;
 	}
 
-	public boolean isActivatedCommentMode() {
-		return commentMode;
-	}
-
 	private void reCalculateCommentModeState() {
-		if (codeLine.contains(OPENING_BLOCK_COMMENT_MARK))
-			commentMode = true;
+		if (codeLine.contains(OPENING_BLOCK_COMMENT_MARK)) {
+			this.parserState = new CommentState();
+		}
 
-		if (codeLine.contains(CLOSING_BLOCK_COMMENT_MARK))
-			commentMode = false;
+		if (codeLine.contains(CLOSING_BLOCK_COMMENT_MARK)) {
+			this.parserState = new CodeState();
+		}
+
 	}
 
 	private boolean isMarkAtTheEndOfLine(String mark) {
@@ -87,5 +86,13 @@ public class SourceLine {
 		return isAtTheEnd;
 	}
 
+	// Accessor and mutator for state pattern
+	public ParserState getStateParser() {
+		return parserState;
+	}
+
+	public void setStateParser(ParserState parserState) {
+		this.parserState = parserState;
+	}
 
 }

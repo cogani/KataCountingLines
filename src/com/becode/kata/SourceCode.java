@@ -20,13 +20,14 @@ public class SourceCode {
 	}
 	
 	public int countNumberCodeLines(){
+		ParserState parserState = new CodeState();
 		int result = 0;
-		boolean commentMode = false;
 		for (String line : sourceLines) {
 			SourceLine sourceLine = new SourceLine(line);
-			if (sourceLine.isCodeLine(commentMode))
+			sourceLine.setStateParser(parserState);
+			if (sourceLine.isCodeLine())
 				result++;
-			commentMode = sourceLine.isActivatedCommentMode();
+			parserState = sourceLine.getStateParser();
 		}
 		return result;
 	}
